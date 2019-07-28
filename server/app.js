@@ -8,8 +8,7 @@ var middleware = require('./middleware');
 // services
 var UserService = require('./api/services/UserService');
 var userService = new UserService();
-var RegisterService = require('./api/services/RegisterService');
-var registerService = new RegisterService();
+var registerController = require('./api/controllers/RegisterController');
 var loginController = require('./api/controllers/LoginController');
 
 // init app
@@ -22,7 +21,6 @@ app.use(bodyparser.urlencoded({extended:false}));
 
 app.get('/', function (req, res) {
   res.send('Hello World!');
-  console.log(con);
 });
 
 app.get('/user', function (req, res) {
@@ -35,16 +33,7 @@ app.get('/user', function (req, res) {
   });
 });
 
-app.post('/register', function (req, res) {
-  registerService.register({email: req.body.email, password: req.body.password}, function(result, err) {
-    if (err) {
-      res.send(err);
-      return;
-    }
-    res.send(result);
-  });
-});
-
+app.use('/register', registerController);
 
 app.use('/login', loginController);
 

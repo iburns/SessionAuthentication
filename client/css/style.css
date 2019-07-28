@@ -22,7 +22,8 @@ html {
 
 .login-box {
   width: 360px;
-  height: 360px;
+  min-height: 360px;
+  height: auto;
   background-color: #F4F4F4;
   display: flex;
   align-items: center;
