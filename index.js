@@ -52,13 +52,18 @@ app.get('/api/user', function (req, res) {
     res.send(user);
   });
 });
-app.use('/api/register', registerController);
 
+app.use('/api/register', passport.authenticate('local-register', { successRedirect : '/me' }));
 app.post('/api/login', passport.authenticate('local-login', { successRedirect : '/me' }));
 
 // login route
 app.get('/login', function(req, res) {
   res.sendFile(path.join(__dirname, 'public') + '/login.html');
+});
+
+// login route
+app.get('/register', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public') + '/register.html');
 });
 
 // login route
