@@ -1,38 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="authpage">
   <% include ../partials/header %>
 
-  <body>
+  <body class="authpage">
     <div class="login-container">
       <div class="login-box drop-shadow">
-        <!-- ko foreach: messages -->
-        <div class="alert alert-danger" style="display: none; width: 100%;" data-bind="visible: $data, text: $data"></div>
-        <!-- /ko -->
+        <% include ../partials/messages %>
 
         <h2 class="login-title">Login</h2>
         <form action="/api/login" method="post">
           <input name="email" type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="">
           <input name="password" type="text" class="form-control form-password" placeholder="Password" aria-label="Password" aria-describedby="">
-          <input href="#0" type="submit" class="btn login-button">        
+          <div style="margin: 0; text-align: center;">
+            <input href="#0" type="submit" class="btn login-button"> 
+          </div>       
         </form>
-
-        <div class="trademark">
-            <p>Ian Burns 2017</p>
-          </div>
+        <div>
+          <a href="register">Register a new account</a>            
+        </div>
       </div>
     </div>
   </body>
 
   <script type="text/javascript" src="/constants"></script>
-
   <script type="text/javascript">
-
     $(document).ready(function () {
       var vm = function(data) {
         var self = this;
 
-        self.messages = ko.observable(data.messages.error || '');
+        self.errorMessages = ko.observable(data.messages.error || '');
+        self.successMessages = ko.observable(data.messages.success || '');
+        self.infoMessages = ko.observable(data.messages.info || '');
+        self.warningMessages = ko.observable(data.messages.warning || '');
 
         return self;
       }

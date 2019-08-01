@@ -2,10 +2,6 @@ const path = require('path');
 const passport = require('passport');
 
 module.exports = function(app) {
-
-  // setup passport
-  
-
   // api routes
   app.get('/api/user', function (req, res) {
     userService.getUserById(1, function(user, err) {
@@ -17,8 +13,12 @@ module.exports = function(app) {
     });
   });
 
-  app.use('/api/register', passport.authenticate('local-register', { successRedirect : '/me', failureRedirect : '/register', failureFlash: true }));
-  app.post('/api/login', passport.authenticate('local-login', { successRedirect : '/me', failureRedirect : '/login', failureFlash: true }));
+  app.use('/api/register', passport.authenticate('local-register', { successRedirect : '/medirect', failureRedirect : '/register', failureFlash: true, successFlash: 'Welcome!' }));
+  app.post('/api/login', passport.authenticate('local-login', { successRedirect : '/medirect', failureRedirect : '/login', failureFlash: true, successFlash: 'Welcome!' }));
+
+  app.use('/medirect', isLoggedIn, function(req, res) {
+    res.render('pages/me', { data: { messages: req.flash() }});
+  })
 
   // login route
   app.get('/login', function(req, res) {
@@ -27,7 +27,7 @@ module.exports = function(app) {
 
   // login route
   app.get('/register', function(req, res) {
-    res.render('pages/register');
+    res.render('pages/register', { data: { messages: req.flash() } });
   });
 
   // login route
@@ -37,3 +37,11 @@ module.exports = function(app) {
     res.redirect('/login');
   });
 }
+
+//route middleware to ensure user is logged in
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated())
+      return next();
+  res.redirect('/login');//path.join(__dirname, 'public') + '/login.html');
+}
+

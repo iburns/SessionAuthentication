@@ -1,85 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="authpage">
   <% include ../partials/header %>
 
-  <body>
+  <body class="authpage">
     <div class="login-container">
       <div class="login-box drop-shadow">
-        <div class="alert alert-info" style="width: 100%;" data-bind="visible: message, text: message"></div>
+        <% include ../partials/messages %>
 
         <h2 class="login-title">Register</h2>
-        <div class="">
-          <input data-bind="value: email, valueUpdate: 'afterkeydown'" type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="">
-          <input id="login-password" data-bind="value: password, valueUpdate: 'afterkeydown'" type="text" class="form-control form-password" placeholder="Password" aria-label="Password" aria-describedby="">
+        <form action="/api/register" method="post">
+          <input name="email" type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="">
+          <input name="password" type="text" class="form-control form-password" placeholder="Password" aria-label="Password" aria-describedby="">
+          <div style="margin: 0; text-align: center;">
+            <input href="#0" type="submit" class="btn login-button"> 
+          </div>       
+        </form>
+        <div>
+            <a href="login" style="font-size: 14px;">Already have an account? Login.</a>
         </div>
-        <a href="#0" class="btn login-button" data-bind="click: function() { register(); }">REGISTER</a>
-
-        <div class="trademark">
-            <p>Ian Burns 2017</p>
-          </div>
       </div>
     </div>
   </body>
 
   <script type="text/javascript" src="/constants"></script>
-
   <script type="text/javascript">
+    $(document).ready(function () {
+      var vm = function(data) {
+        var self = this;
 
-    var vm = function() {
-      var self = this;
+        self.errorMessages = ko.observable(data.messages.error || '');
+        self.successMessages = ko.observable(data.messages.success || '');
+        self.infoMessages = ko.observable(data.messages.info || '');
+        self.warningMessages = ko.observable(data.messages.warning || '');
 
-      self.email = ko.observable('');
-      self.password = ko.observable('');
-
-      self.message = ko.observable('');
-
-      self.register = function() {
-        $.ajax({
-          type: "POST",
-          url: "/api/register",
-          xhrFields: { withCredentials: true },
-          crossDomain: true,
-          data: { email: self.email(), password: self.password()},
-          success: function(result){
-            window.location.href = "/me";
-          },
-          error: function(XMLHttpRequest, textStatus, errorThrown) {
-            console.log(textStatus);
-          }
-        });
+        return self;
       }
 
-      // button bindings
-      document.getElementById('login-password').onkeydown = function(event) {
-        if (event.keyCode == 13) {
-            self.register();
-        }
-      }
-
-      return self;
-    }
-
-    var viewModel = new vm();
-    ko.applyBindings(viewModel);
-
-    // check if there's a message to display
-    $(document).ready(function() {
-      var url = window.location.href;
-      if (url) {
-        // get message
-        var paramsString = window.location.href.split("?")[1];
-        var paramValues = paramsString.split("&");
-        var params = new Array();
-        paramValues.forEach(function (param) {
-            var paramValue = param.split("=");
-            params[paramValue[0]] = paramValue[1];
-        });
-        // show message
-        if (params['message'] === "relog") {
-          viewModel.message("Please log in again");
-        }
-      }
+      // get data from model
+      var viewModel = new vm(<%- JSON.stringify(data) %>);
+      ko.applyBindings(viewModel);
     });
   </script>
-
-  </html>
+</html>

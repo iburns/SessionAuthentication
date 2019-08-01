@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% include ../partials/header %>
+
+  <body>
+    <% include ../partials/messages %>
+  </body>
+
+  <script type="text/javascript" src="/constants"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var vm = function(data) {
+        var self = this;
+
+        self.errorMessages = ko.observable(data.messages.error || '');
+        self.successMessages = ko.observable(data.messages.success || '');
+        self.infoMessages = ko.observable(data.messages.info || '');
+        self.warningMessages = ko.observable(data.messages.warning || '');
+
+        return self;
+      }
+
+      // get data from model
+      var viewModel = new vm(<%- JSON.stringify(data) %>);
+      ko.applyBindings(viewModel);
+    });
+  </script>
+</html>

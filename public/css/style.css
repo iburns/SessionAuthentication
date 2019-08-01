@@ -1,5 +1,5 @@
-body,
-html {
+body.authpage,
+html.authpage {
   background-color: #373737;
   color: black;
   position: relative;
