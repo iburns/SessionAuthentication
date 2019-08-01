@@ -30,18 +30,8 @@ app.use(passport.session());
 
 app.use(flash());
 
-//flash test 
-app.use(function (req, res, next) {
-  req.flash('info', 'hello!');
-  next();
-})
-
 // Setup Auth Routes
 authcontroller(app);
-
-// services
-var UserService = require('./api/services/UserService');
-var userService = new UserService();
 
 // this would serve ALL the files... probably don't want that...
 //app.use(express.static(path.join(__dirname, 'public')));

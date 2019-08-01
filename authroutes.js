@@ -17,7 +17,7 @@ module.exports = function(app) {
     });
   });
 
-  app.use('/api/register', passport.authenticate('local-register', { successRedirect : '/me', failureFlash: true }));
+  app.use('/api/register', passport.authenticate('local-register', { successRedirect : '/me', failureRedirect : '/register', failureFlash: true }));
   app.post('/api/login', passport.authenticate('local-login', { successRedirect : '/me', failureRedirect : '/login', failureFlash: true }));
 
   // login route
