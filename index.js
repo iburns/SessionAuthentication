@@ -1,13 +1,15 @@
-var express = require('express');
-var session = require('express-session');
-var path = require('path');
-var PORT = process.env.PORT || 5000;
-var bodyparser = require('body-parser');
-var jwt = require('jsonwebtoken');
-var middleware = require('./middleware');
-//var cookieParser = require('cookie-parser')
-var passport = require('passport');
-var passportConfig = require('./passport');
+const express = require('express');
+const path = require('path');
+const PORT = process.env.PORT || 5000;
+const bodyparser = require('body-parser');
+const session = require('express-session');
+const passport = require('passport');
+const passportConfig = require('./passport');
+const flash = require('connect-flash');
+
+const authcontroller = require('./authroutes');
+
+// setup ENV variables for local builds
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -17,19 +19,29 @@ var app = express();
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:false}));
 
-// setup passport
-passportConfig(passport);
+// setup view engine
+app.set('view engine', 'ejs');
+
+// session & passport setup
 app.use(session({secret: process.env.SECRET, resave: false, saveUninitialized: false}));
+passportConfig(passport);
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(flash());
+
+//flash test 
+app.use(function (req, res, next) {
+  req.flash('info', 'hello!');
+  next();
+})
+
+// Setup Auth Routes
+authcontroller(app);
 
 // services
 var UserService = require('./api/services/UserService');
 var userService = new UserService();
-var registerController = require('./api/controllers/RegisterController');
-var loginController = require('./api/controllers/LoginController');
-
-//app.use(cookieParser(process.env.SECRET));
 
 // this would serve ALL the files... probably don't want that...
 //app.use(express.static(path.join(__dirname, 'public')));
@@ -40,37 +52,6 @@ app.use('/css', express.static(__dirname + '/public/css'));
 // get port in html files for AJAX
 app.use('/constants', function(req, res) {
   res.send("var port='" + process.env.PORT + "'");
-});
-
-// api routes
-app.get('/api/user', function (req, res) {
-  userService.getUserById(1, function(user, err) {
-    if (err) {
-      res.send(err);
-      return;
-    }
-    res.send(user);
-  });
-});
-
-app.use('/api/register', passport.authenticate('local-register', { successRedirect : '/me' }));
-app.post('/api/login', passport.authenticate('local-login', { successRedirect : '/me' }));
-
-// login route
-app.get('/login', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public') + '/login.html');
-});
-
-// login route
-app.get('/register', function(req, res) {
-  res.sendFile(path.join(__dirname, 'public') + '/register.html');
-});
-
-// login route
-app.use('/logout', function(req, res) {
-  console.log("LOGOUT: \"" + req.user.Username + "\" (Id: " + req.user.Id + ") has logged out.")
-  req.logout();
-  res.redirect('/login');
 });
 
 // game route AUTHENTICATED

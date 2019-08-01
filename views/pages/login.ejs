@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <% include ../partials/header %>
+
+  <body>
+    <div class="login-container">
+      <div class="login-box drop-shadow">
+        <!-- ko foreach: messages -->
+        <div class="alert alert-info" style="width: 100%;" data-bind="text: $data"></div>
+        <!-- /ko -->
+
+        <h2 class="login-title">Login</h2>
+        <div class="">
+          <input data-bind="value: email, valueUpdate: 'afterkeydown'" type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="">
+          <input id="login-password" data-bind="value: password, valueUpdate: 'afterkeydown'" type="text" class="form-control form-password" placeholder="Password" aria-label="Password" aria-describedby="">
+        </div>
+        <a href="#0" class="btn login-button" data-bind="click: function() { login(); }">LOGIN</a>
+
+        <div class="trademark">
+            <p>Ian Burns 2017</p>
+          </div>
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript" src="/constants"></script>
+
+  <script type="text/javascript">
+
+    var vm = function(data) {
+      var self = this;
+
+      console.log(data);
+
+      self.email = ko.observable('');
+      self.password = ko.observable('');
+
+      self.messages = ko.observable(data.messages.info || '');
+
+      self.login = function() {
+        $.ajax({
+          type: "POST",
+          url: "/api/login",
+          xhrFields: { withCredentials: true },
+          crossDomain: true,
+          data: { email: self.email(), password: self.password()},
+          success: function(result){
+            window.location.href = "/me";
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log(textStatus);
+          }
+        });
+      }
+
+      // button bindings
+      document.getElementById('login-password').onkeydown = function(event) {
+        if (event.keyCode == 13) {
+            self.login();
+        }
+      }
+
+      return self;
+    }
+
+    // get data from model
+    var viewModel = new vm(<%- JSON.stringify(data) %>);
+    ko.applyBindings(viewModel);
+  </script>
+</html>
