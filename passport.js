@@ -1,28 +1,21 @@
-// config/passport.js
-        
 var crypto = require('crypto');
-
-// load all the things we need
 var LocalStrategy   = require('passport-local').Strategy;
 
 // db connection
 var con = require('./db_connection.js')
 
-// expose this function to our app using module.exports
 module.exports = function(passport) {
-
 	// =========================================================================
   // passport session setup ==================================================
   // =========================================================================
   // required for persistent login sessions
   // passport needs ability to serialize and unserialize users out of session
-
   // used to serialize the user for the session
   passport.serializeUser(function(user, done) {
-    done(null, user.Id);
+    done(null, user.Id); // serializes the id
   });
 
-  // used to deserialize the user
+  // used to deserialize the user (get's user info from Id)
   passport.deserializeUser(function(id, done) {
     con.query('SELECT Email, Username FROM dbo.Users WHERE Id = ?', [id], function (err, result) {
       if (err) {
@@ -42,11 +35,8 @@ module.exports = function(passport) {
 	
 
  	// =========================================================================
-  // LOCAL SIGNUP ============================================================
+  // LOCAL SIGNUP
   // =========================================================================
-  // we are using named strategies since we have one for login and one for signup
-	// by default, if there was no name, it would just be called 'local'
-
   passport.use('local-register', new LocalStrategy({
       // by default, local strategy uses username and password, we will override with email
       usernameField : 'email',
@@ -72,7 +62,7 @@ module.exports = function(passport) {
           con.query('INSERT INTO dbo.Users VALUES (null, "username", ?, ?, ?)', [email, hash, salt], function (err, result) {
             if (err) return done(err);
             usr.Id = result.insertId;
-            return done(null, usr);
+            return done(null, usr); // return the new users id
           });
         } catch (e) {
           console.log('error in try');
@@ -83,11 +73,8 @@ module.exports = function(passport) {
   }));
 
   // =========================================================================
-  // LOCAL LOGIN =============================================================
+  // LOCAL LOGIN
   // =========================================================================
-  // we are using named strategies since we have one for login and one for signup
-  // by default, if there was no name, it would just be called 'local'
-
   passport.use('local-login', new LocalStrategy({
       // by default, local strategy uses username and password, we will override with email
       usernameField : 'email',

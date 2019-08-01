@@ -33,9 +33,6 @@ app.use(flash());
 // Setup Auth Routes
 authcontroller(app);
 
-// this would serve ALL the files... probably don't want that...
-//app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/js', express.static(__dirname + '/public/js'));
 app.use('/css', express.static(__dirname + '/public/css'));
 
@@ -51,7 +48,7 @@ app.use('/game', isLoggedIn, function(req, res) {
 
 // me route AUTHENTICATED
 app.get('/me', isLoggedIn, function(req, res) {
-  res.sendFile(path.join(__dirname, 'public') + '/me.html');
+  res.render('pages/me');
 });
 
 //  404 error
