@@ -7,11 +7,15 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "node test.js"
+    "start": "SET NODE_ENV=dev && node index.js",
+    "start-mac": "export NODE_ENV=dev && node index.js",
+    "prod": "node index.js",
+    "test": "SET NODE_ENV=test && mocha --timeout 10000 ./tests",
+    "test-mac": "export NODE_ENV=test && mocha --timeout 10000 ./tests"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
+    "config": "^3.2.2",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "crypto": "^1.0.1",
@@ -25,7 +29,11 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0",
     "request": "^2.81.0",
+    "superagent": "^5.1.0",
+    "supertest": "^4.0.2",
     "tape": "^4.7.0"
   },
   "repository": {

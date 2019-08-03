@@ -6,12 +6,15 @@ const session = require('express-session');
 const passport = require('passport');
 const passportConfig = require('./passport');
 const flash = require('connect-flash');
+const config = require('config');
 
 const authcontroller = require('./authroutes');
 
 // setup ENV variables for local builds
 const dotenv = require('dotenv');
 dotenv.config();
+
+console.log('Running in ' + (process.env.NODE_ENV || 'default') + ' environment.');
 
 // init app
 var app = express();
@@ -72,3 +75,4 @@ function isLoggedIn(req, res, next) {
   res.redirect('/login');//path.join(__dirname, 'public') + '/login.html');
 }
 
+module.exports = app;

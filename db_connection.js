@@ -1,13 +1,7 @@
 var mysql = require('mysql');
+const config = require ('config');
 
-module.exports = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "password",
-  database: "dbo"
-});
+// Get connection info from config
+var connectionInfo = config.db;
 
-// exports.connect(function(err) {
-//   if (err) throw err;
-//   console.log("Connected!");
-// });
+module.exports = mysql.createConnection(connectionInfo);
