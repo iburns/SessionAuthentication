@@ -50,8 +50,8 @@ app.use('/game', isLoggedIn, function(req, res) {
 });
 
 // me route AUTHENTICATED
-app.get('/me', isLoggedIn, function(req, res) {
-  res.render('pages/me');
+app.get('/home', isLoggedIn, function(req, res) {
+  res.render('pages/home');
 });
 
 //  404 error

@@ -15,7 +15,7 @@ before(function(done){
     .send(userCredentials)
     .end(function(err, response){
       expect(response.statusCode).to.equal(302);
-      expect('Location', '/me');
+      expect('Location', '/home');
       done();
     });
 });
@@ -28,7 +28,7 @@ describe('GET /login', function(done){
     request(app).get('/login')
     .expect(200, done);
   });
-  
+
   it('should redirect already authenticated user', function(done){
     authenticatedUser.get('/login')
     .expect(302, done);
@@ -36,16 +36,31 @@ describe('GET /login', function(done){
 });
 
 //
+// /register
+//
+describe('GET /register', function(done){
+  it('should let anyone not logged in view', function(done){
+    request(app).get('/register')
+    .expect(200, done);
+  });
+  
+  it('should redirect already authenticated user', function(done){
+    authenticatedUser.get('/register')
+    .expect(302, done);
+  });
+});
+
+//
 // /me
 //
-describe('GET /me', function(done){
+describe('GET /home', function(done){
   it('should return a 200 response if the user is logged in', function(done){
-    authenticatedUser.get('/me')
+    authenticatedUser.get('/home')
     .expect(200, done);
   });
 
   it('should return a 302 response and redirect to /login', function(done){
-    request(app).get('/me')
+    request(app).get('/home')
     .expect('Location', '/login')
     .expect(302, done);
   });

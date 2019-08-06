@@ -1,7 +1,7 @@
 const path = require('path');
 const passport = require('passport');
 
-const defaultRedirect = '/me';
+const defaultRedirect = '/home';
 
 module.exports = function(app) {
   // api routes
@@ -18,8 +18,8 @@ module.exports = function(app) {
   app.use('/api/register', passport.authenticate('local-register', { successRedirect : defaultRedirect, failureRedirect : '/register', failureFlash: true, successFlash: 'Welcome!' }));
   app.post('/api/login', passport.authenticate('local-login', { successRedirect : defaultRedirect, failureRedirect : '/login', failureFlash: true, successFlash: 'Welcome!' }));
 
-  app.use('/me', isLoggedIn, function(req, res) {
-    res.render('pages/me', { data: { messages: req.flash() }});
+  app.use('/home', isLoggedIn, function(req, res) {
+    res.render('pages/home', { data: { messages: req.flash() }});
   })
 
   // login route
