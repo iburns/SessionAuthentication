@@ -1,5 +1,5 @@
 # Session-based Authentication with NodeJS/Express/MySQL/Passport
-Author: Ian Burns
+Author: Ian Burns\
 Date: August, 2019
 
 ## Frameworks
