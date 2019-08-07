@@ -1,3 +1,2 @@
-# a basic web MORPG
+# Session-based Authentication with NodeJS/Express/MySQL/Passport
 
-The beginnings of a web based multiplayer RPG game

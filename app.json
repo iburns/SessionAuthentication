@@ -1,5 +1,5 @@
 {
-  "name": "Web mmorpg",
-  "description": "a web mmorpg",
+  "name": "User Authentication with NodeJS, Express, MySQL, and Passport",
+  "description": "A user authentication system",
   "repository": ""
 }

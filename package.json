@@ -1,7 +1,7 @@
 {
-  "name": "web-morpg",
+  "name": "authentication-with-nodejs-express-mysql-passport",
   "version": "0.3.0",
-  "description": "A web-morpg",
+  "description": "A session based auth system",
   "engines": {
     "node": "10.x"
   },
@@ -36,14 +36,11 @@
     "supertest": "^4.0.2",
     "tape": "^4.7.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
-  },
   "keywords": [
     "node",
-    "heroku",
-    "express"
+    "express",
+    "mysql",
+    "passport"
   ],
   "license": "MIT"
 }

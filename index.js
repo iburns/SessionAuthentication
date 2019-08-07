@@ -38,6 +38,8 @@ authcontroller(app);
 
 app.use('/js', express.static(__dirname + '/public/js'));
 app.use('/css', express.static(__dirname + '/public/css'));
+app.use('/img', express.static(__dirname + '/public/img'));
+app.use('/fonts', express.static(__dirname + '/public/fonts'));
 
 // get port in html files for AJAX
 app.use('/constants', function(req, res) {

@@ -1,3 +1,8 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
 body.authpage,
 html.authpage {
   background-color: #373737;
@@ -9,7 +14,17 @@ html.authpage {
 
 @font-face {
   font-family: "PT Serif";
-  src: url(../Content/fonts/PTSerif.ttf) format("truetype");
+  src: url(fonts/PTSerif.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Alagard";
+  src: url(fonts/alagard.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "m5x7";
+  src: url(fonts/m5x7.ttf) format("truetype");
 }
 
 .login-container {
@@ -77,4 +92,78 @@ h2 {
   margin-top: auto;
   margin-bottom: 0;
   color: #d8d6d3;
+}
+
+
+.game {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.placeholder {
+  width: 237px;
+  height: 102px;
+  margin-bottom: 32px;
+}
+
+.nav_bar {
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  flex-direction: row-reverse;
+  text-align: center;
+  padding: 16px;
+}
+
+.nav_item {
+  height: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-family: 'Alagard';
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  display: inline-block;
+}
+
+.outline {
+  border: 4px dashed white;
+}
+
+.action-card {
+  width: 100px;
+  height: 100px;
+  margin: 16px;
+  padding: 16px;
+}
+
+.action-card-content {
+  width: 160px;
+  height: 160px;
+  background-color: lightgoldenrodyellow;
+  border: 6px solid saddlebrown;
+}
+
+.card-holder {
+  display: flex;
+  flex-direction: row;
+}
+
+.font-fancy {
+  font-size: 20px;
+  font-family: 'Alagard';
+}
+
+.font-small {
+  font-size: 20px;
+  font-family: 'm5x7';
 }
